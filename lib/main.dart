@@ -41,13 +41,16 @@ class MyHomePage extends StatelessWidget {
   ];
   // String titleInput;
   // String amountInput;
-  final titleController=TextEditingController();
-  final amountController=TextEditingController();
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(icon: Icon(Icons.add), onPressed: () {}),
+        ],
         title: Text('Flutter App'),
       ),
       body: SingleChildScrollView(
@@ -67,6 +70,11 @@ class MyHomePage extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
