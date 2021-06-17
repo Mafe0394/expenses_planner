@@ -1,5 +1,5 @@
-import 'package:expenses_planner/widgets/user_transactions.dart';
-
+import 'package:expenses_planner/widgets/transaction_list.dart';
+import './widgets/new_transaction.dart';
 import './models/transaction.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +18,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final List<Transaction> transactions = [
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _userTransactions = [
     Transaction(
       id: 't1',
       title: 'New shoes',
@@ -38,18 +43,66 @@ class MyHomePage extends StatelessWidget {
       amount: 10.99,
       date: DateTime.now(),
     ),
+    Transaction(
+      id: 't3',
+      title: 'New cats',
+      amount: 10.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'New cats',
+      amount: 10.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'New cats',
+      amount: 10.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'New cats',
+      amount: 10.99,
+      date: DateTime.now(),
+    ),
   ];
-  // String titleInput;
-  // String amountInput;
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+
+  void _addNewTransaction(String title, double amount) {
+    final newTx = Transaction(
+      id: DateTime.now().toString(),
+      title: title,
+      amount: amount,
+      date: DateTime.now(),
+    );
+
+    setState(() {
+      _userTransactions.add(newTx);
+    });
+  }
+
+  void startAddNewTransaction(BuildContext ctx) {
+    //The builder is a function that returns the widget contained in the BottomSheet
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          return GestureDetector(
+            child: NewTransaction(addTransaction: _addNewTransaction),
+            onTap: () {}, // We set a different action when the user taps on the bottomSheet, is not necesary if the default works
+            behavior: HitTestBehavior.opaque, //important to catch the event and avoid it is handle for anyone else
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(icon: Icon(Icons.add), onPressed: () {}),
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () => startAddNewTransaction(context)),
         ],
         title: Text('Flutter App'),
       ),
@@ -66,13 +119,13 @@ class MyHomePage extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            UserTransactions(),
+            TransactionList(transactions: _userTransactions),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () => startAddNewTransaction(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
