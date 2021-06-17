@@ -80,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _userTransactions.add(newTx);
     });
+    Navigator.of(context).pop();// dismiss the bottom sheet
   }
 
   void startAddNewTransaction(BuildContext ctx) {

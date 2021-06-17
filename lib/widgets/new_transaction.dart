@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+
+/* We change New Transaction from a stateless to a statefulWidget so 
+we correct the input boxes behavior (the text dissappearing) */
+class NewTransaction extends StatefulWidget {
   final Function addTransaction;
 
   NewTransaction({@required this.addTransaction});
+
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
 
   void submitData() {
     final String enteredTitle = titleController.text;
@@ -14,7 +24,7 @@ class NewTransaction extends StatelessWidget {
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return; //Stops the function execution
     }
-    return addTransaction(enteredTitle, enteredAmount);
+    return widget.addTransaction(enteredTitle, enteredAmount);
   }
 
   @override
