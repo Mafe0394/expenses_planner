@@ -12,8 +12,29 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Personal Expenses',
       home: MyHomePage(),
+      theme: ThemeData(
+        //primarySwatch generates diferent shades based in a primary color
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber,
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              headline6: TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+        ),
+      ),
     );
   }
 }
@@ -80,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _userTransactions.add(newTx);
     });
-    Navigator.of(context).pop();// dismiss the bottom sheet
+    Navigator.of(context).pop(); // dismiss the bottom sheet
   }
 
   void startAddNewTransaction(BuildContext ctx) {
@@ -90,8 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (_) {
           return GestureDetector(
             child: NewTransaction(addTransaction: _addNewTransaction),
-            onTap: () {}, // We set a different action when the user taps on the bottomSheet, is not necesary if the default works
-            behavior: HitTestBehavior.opaque, //important to catch the event and avoid it is handle for anyone else
+            onTap:
+                () {}, // We set a different action when the user taps on the bottomSheet, is not necesary if the default works
+            behavior: HitTestBehavior
+                .opaque, //important to catch the event and avoid it is handle for anyone else
           );
         });
   }
@@ -105,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.add),
               onPressed: () => startAddNewTransaction(context)),
         ],
-        title: Text('Flutter App'),
+        title: Text('Personal Expenses'),
       ),
       body: SingleChildScrollView(
         child: Column(
