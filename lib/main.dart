@@ -1,6 +1,7 @@
-import 'package:expenses_planner/widgets/transaction_list.dart';
+import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
 import './models/transaction.dart';
+import './widgets/chart.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -90,6 +91,16 @@ class _MyHomePageState extends State<MyHomePage> {
     // ),
   ];
 
+  List<Transaction> get _recentTransactions {
+    /* Where is used to apply a function in every element of the list,
+    if the condition is true the element is keeped*/
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(Duration(days: 7)),
+      );
+    }).toList();
+  }
+
   void _addNewTransaction(String title, double amount) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
@@ -135,14 +146,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text('CHART!'),
-                elevation: 5,
-              ),
-            ),
+            Chart(
+              recentTransactions: _recentTransactions,
+            ), // we need only the recent transactions in the chart
             TransactionList(transactions: _userTransactions),
           ],
         ),
