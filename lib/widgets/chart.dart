@@ -29,7 +29,7 @@ class Chart extends StatelessWidget {
       print(totalSum);
 
       return {
-        'day': DateFormat.E().format(weekday),
+        'day': DateFormat.E().format(weekday).substring(0,1),// to get the first element of a string
         'amount': totalSum,
       };
     });
@@ -42,7 +42,10 @@ class Chart extends StatelessWidget {
       elevation: 6,
       margin: EdgeInsets.all(20),
       child: Row(
-        children: [],
+        children: groupedTransactionsGroup.map((data) {
+          return Text(
+              '${data['day']} \: ${data['amount']}');
+        }).toList(),
       ),
     );
   }
