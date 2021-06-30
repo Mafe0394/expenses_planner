@@ -50,16 +50,24 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
-      child: Row(
-        children: groupedTransactionsGroup.map((data) {
-          return ChartBar(
-            label: data['day'],
-            spendingAmount: data['amount'],
-            spendingPctOfTotal: totalSpending == 0.0
-                ? 0.0
-                : (data['amount'] as double) / totalSpending,
-          );
-        }).toList(),
+      child: Padding(// If we only need a padding, we can use this widget instead a container
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround, /*all the bars are distributed along the 
+          chart with the same space*/
+          children: groupedTransactionsGroup.map((data) {
+            return Flexible(
+              fit: FlexFit.tight,// the bar widget has to fit in its determinated space
+              child: ChartBar(
+                label: data['day'],
+                spendingAmount: data['amount'],
+                spendingPctOfTotal: totalSpending == 0.0
+                    ? 0.0
+                    : (data['amount'] as double) / totalSpending,
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
