@@ -1,3 +1,4 @@
+import './chart_bar.dart';
 import '../models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -29,10 +30,18 @@ class Chart extends StatelessWidget {
       print(totalSum);
 
       return {
-        'day': DateFormat.E().format(weekday).substring(0,1),// to get the first element of a string
+        'day': DateFormat.E()
+            .format(weekday)
+            .substring(0, 1), // to get the first element of a string
         'amount': totalSum,
       };
     });
+  }
+
+  /* .fold allows to turn a list into a number type*/
+  double get totalSpending {
+    return groupedTransactionsGroup.fold(
+        0.0, (previousValue, element) => previousValue + element['amount']);
   }
 
   @override
@@ -43,8 +52,13 @@ class Chart extends StatelessWidget {
       margin: EdgeInsets.all(20),
       child: Row(
         children: groupedTransactionsGroup.map((data) {
-          return Text(
-              '${data['day']} \: ${data['amount']}');
+          return ChartBar(
+            label: data['day'],
+            spendingAmount: data['amount'],
+            spendingPctOfTotal: totalSpending == 0.0
+                ? 0.0
+                : (data['amount'] as double) / totalSpending,
+          );
         }).toList(),
       ),
     );
