@@ -47,48 +47,48 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    // Transaction(
-    //   id: 't1',
-    //   title: 'New shoes',
-    //   amount: 69.99,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: 'Weekly groceries',
-    //   amount: 16.53,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't3',
-    //   title: 'New cats',
-    //   amount: 10.99,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't3',
-    //   title: 'New cats',
-    //   amount: 10.99,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't3',
-    //   title: 'New cats',
-    //   amount: 10.99,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't3',
-    //   title: 'New cats',
-    //   amount: 10.99,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't3',
-    //   title: 'New cats',
-    //   amount: 10.99,
-    //   date: DateTime.now(),
-    // ),
+    Transaction(
+      id: 't1',
+      title: 'New shoes',
+      amount: 69.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Weekly groceries',
+      amount: 16.53,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'New cats',
+      amount: 10.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'New cats',
+      amount: 10.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'New cats',
+      amount: 100.50,
+      date: DateTime.utc(2021,6,27),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'New cats',
+      amount: 10.99,
+      date: DateTime.utc(2021,6,29),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'New cats',
+      amount: 10.99,
+      date: DateTime.utc(2021,6,29),
+    ),
   ];
 
   List<Transaction> get _recentTransactions {
