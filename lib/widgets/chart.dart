@@ -35,7 +35,7 @@ class Chart extends StatelessWidget {
             .substring(0, 1), // to get the first element of a string
         'amount': totalSum,
       };
-    });
+    }).reversed.toList();
   }
 
   /* .fold allows to turn a list into a number type*/
