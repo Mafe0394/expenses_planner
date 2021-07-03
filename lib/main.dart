@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
+              button: TextStyle(color: Colors.white),
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -75,19 +76,19 @@ class _MyHomePageState extends State<MyHomePage> {
       id: 't3',
       title: 'New cats',
       amount: 100.50,
-      date: DateTime.utc(2021,6,27),
+      date: DateTime.utc(2021, 6, 27),
     ),
     Transaction(
       id: 't3',
       title: 'New cats',
       amount: 10.99,
-      date: DateTime.utc(2021,6,29),
+      date: DateTime.utc(2021, 6, 29),
     ),
     Transaction(
       id: 't3',
       title: 'New cats',
       amount: 10.99,
-      date: DateTime.utc(2021,6,29),
+      date: DateTime.utc(2021, 6, 29),
     ),
   ];
 
