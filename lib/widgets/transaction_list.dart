@@ -4,9 +4,11 @@ import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final Function trailingFunction;
 
   TransactionList({
     @required this.transactions,
+    @required this.trailingFunction
   });
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,11 @@ class TransactionList extends StatelessWidget {
                     vertical: 8,
                   ),
                   child: ListTile(
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: ()=>trailingFunction(transactions[index].id),
+                      color: Theme.of(context).errorColor,
+                    ),
                     leading: CircleAvatar(
                       radius: 30,
                       child: Padding(

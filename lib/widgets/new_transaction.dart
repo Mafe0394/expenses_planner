@@ -21,10 +21,14 @@ class _NewTransactionState extends State<NewTransaction> {
     final String enteredTitle = _titleController.text;
     final double enteredAmount = double.tryParse(_amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
       return; //Stops the function execution
     }
-    return widget.addTransaction(enteredTitle, enteredAmount);
+    return widget.addTransaction(
+      enteredTitle,
+      enteredAmount,
+      _selectedDate,
+    );
   }
 
   void _presentDatePicker() {

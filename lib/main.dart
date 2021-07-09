@@ -102,12 +102,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime selectedDate) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
       title: title,
       amount: amount,
-      date: DateTime.now(),
+      date: selectedDate,
     );
 
     setState(() {
@@ -131,6 +131,12 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  void _deleteTransaction(String idTransaction) {
+    setState(() {
+      _userTransactions.removeWhere((element) => element.id == idTransaction);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Chart(
               recentTransactions: _recentTransactions,
             ), // we need only the recent transactions in the chart
-            TransactionList(transactions: _userTransactions),
+            TransactionList(transactions: _userTransactions,trailingFunction: _deleteTransaction,),
           ],
         ),
       ),
