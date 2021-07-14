@@ -139,27 +139,39 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final AppBar _appBar = AppBar(
+      actions: [
+        IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => startAddNewTransaction(context)),
+      ],
+      title: Text('Personal Expenses'),
+    );
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => startAddNewTransaction(context)),
-        ],
-        title: Text('Personal Expenses'),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
+      appBar: _appBar,
+      body: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(
-              recentTransactions: _recentTransactions,
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      _appBar.preferredSize.height-MediaQuery.of(context).padding.top)*
+                  0.4,
+              child: Chart(
+                recentTransactions: _recentTransactions,
+              ),
             ), // we need only the recent transactions in the chart
-            TransactionList(transactions: _userTransactions,trailingFunction: _deleteTransaction,),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      _appBar.preferredSize.height-MediaQuery.of(context).padding.top) *
+                  0.6,
+              child: TransactionList(
+                transactions: _userTransactions,
+                trailingFunction: _deleteTransaction,
+              ),
+            ),
           ],
         ),
-      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => startAddNewTransaction(context),
