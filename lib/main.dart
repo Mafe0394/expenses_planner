@@ -147,6 +147,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
       title: Text('Personal Expenses'),
     );
+    final _availableSpace=(MediaQuery.of(context).size.height -
+                      _appBar.preferredSize.height-MediaQuery.of(context).padding.top);
     return Scaffold(
       appBar: _appBar,
       body: Column(
@@ -154,17 +156,15 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              height: (MediaQuery.of(context).size.height -
-                      _appBar.preferredSize.height-MediaQuery.of(context).padding.top)*
-                  0.4,
+              height: _availableSpace*
+                  0.3,
               child: Chart(
                 recentTransactions: _recentTransactions,
               ),
             ), // we need only the recent transactions in the chart
             Container(
-              height: (MediaQuery.of(context).size.height -
-                      _appBar.preferredSize.height-MediaQuery.of(context).padding.top) *
-                  0.6,
+              height: _availableSpace *
+                  0.7,
               child: TransactionList(
                 transactions: _userTransactions,
                 trailingFunction: _deleteTransaction,
