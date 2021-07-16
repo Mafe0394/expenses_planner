@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   /**The following lines allow us to set the device orientation preferences */
-  // WidgetsFlutterBinding.ensureInitialized();  
+  // WidgetsFlutterBinding.ensureInitialized();
   // SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,
   //   DeviceOrientation.portraitDown,
@@ -100,6 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   ];
 
+  bool _showChart = false;
   List<Transaction> get _recentTransactions {
     /* Where is used to apply a function in every element of the list,
     if the condition is true the element is keeped*/
@@ -155,31 +156,48 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
       title: Text('Personal Expenses'),
     );
-    final _availableSpace=(MediaQuery.of(context).size.height -
-                      _appBar.preferredSize.height-MediaQuery.of(context).padding.top);
+    final _availableSpace = (MediaQuery.of(context).size.height -
+        _appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top);
     return Scaffold(
       appBar: _appBar,
       body: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              height: _availableSpace*
-                  0.3,
-              child: Chart(
-                recentTransactions: _recentTransactions,
-              ),
-            ), // we need only the recent transactions in the chart
-            Container(
-              height: _availableSpace *
-                  0.7,
-              child: TransactionList(
-                transactions: _userTransactions,
-                trailingFunction: _deleteTransaction,
-              ),
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            height: _availableSpace*0.2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Show chart'),
+                Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    })
+              ],
             ),
-          ],
-        ),
+          ),
+          _showChart
+              ? Container(
+                  height: _availableSpace * 0.8,
+                  child: Chart(
+                    recentTransactions: _recentTransactions,
+                  ),
+                )
+              : // we need only the recent transactions in the chart
+              Container(
+                  height: _availableSpace * 0.8,
+                  child: TransactionList(
+                    transactions: _userTransactions,
+                    trailingFunction: _deleteTransaction,
+                  ),
+                ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => startAddNewTransaction(context),

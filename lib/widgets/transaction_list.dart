@@ -6,69 +6,72 @@ class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
   final Function trailingFunction;
 
-  TransactionList({
-    @required this.transactions,
-    @required this.trailingFunction
-  });
+  TransactionList(
+      {@required this.transactions, @required this.trailingFunction});
   @override
   Widget build(BuildContext context) {
     return transactions.isEmpty
-          ? Column(
+        ? LayoutBuilder(
+            builder: (ctx, constraints) => Column(
               children: [
-                Text(
-                  'No transactions added yet!',
-                  style: Theme.of(context).textTheme.headline6,
+                Container(
+                  height:  constraints.maxHeight*0.15,
+                  child: Text(
+                    'No transactions added yet!',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height:  constraints.maxHeight*0.05,
                 ),
                 SizedBox(
                   height:
-                      200, // We need a Container so the image can fit with the container Boundaries, Columns don't have boundaries
+                      constraints.maxHeight*0.8, // We need a Container so the image can fit with the container Boundaries, Columns don't have boundaries
                   child: Image.asset(
                     'assets/images/waiting.png',
                     fit: BoxFit.cover,
                   ),
                 ),
               ],
-            )
-          : ListView.builder(
-              itemBuilder: (ctx, index) {
-                /** List tile allows us to create a list with a default style and layout,
+            ),
+          )
+        : ListView.builder(
+            itemBuilder: (ctx, index) {
+              /** List tile allows us to create a list with a default style and layout,
                  * leading: widget positioned at the beginning of the list
                  * title: widget in the middle
                  * subtitle: some text shown below the title
                  * trailing: last item on the tile
                  */
-                return Card(
-                  elevation: 5,
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 5,
-                    vertical: 8,
+              return Card(
+                elevation: 5,
+                margin: EdgeInsets.symmetric(
+                  horizontal: 5,
+                  vertical: 8,
+                ),
+                child: ListTile(
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () => trailingFunction(transactions[index].id),
+                    color: Theme.of(context).errorColor,
                   ),
-                  child: ListTile(
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: ()=>trailingFunction(transactions[index].id),
-                      color: Theme.of(context).errorColor,
-                    ),
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: FittedBox(
-                              child: Text('\$${transactions[index].amount}'))),
-                    ),
-                    title: Text(
-                      transactions[index].title,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    subtitle: Text(
-                        DateFormat.yMMMd().format(transactions[index].date)),
+                  leading: CircleAvatar(
+                    radius: 30,
+                    child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: FittedBox(
+                            child: Text('\$${transactions[index].amount}'))),
                   ),
-                );
-              },
-              itemCount: transactions.length,
-            );
+                  title: Text(
+                    transactions[index].title,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  subtitle:
+                      Text(DateFormat.yMMMd().format(transactions[index].date)),
+                ),
+              );
+            },
+            itemCount: transactions.length,
+          );
   }
 }
