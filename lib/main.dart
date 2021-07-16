@@ -148,6 +148,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final _isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final AppBar _appBar = AppBar(
       actions: [
         IconButton(
@@ -159,43 +161,38 @@ class _MyHomePageState extends State<MyHomePage> {
     final _availableSpace = (MediaQuery.of(context).size.height -
         _appBar.preferredSize.height -
         MediaQuery.of(context).padding.top);
+
     return Scaffold(
       appBar: _appBar,
       body: Column(
         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            height: _availableSpace*0.2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Show chart'),
-                Switch(
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    })
-              ],
+          //If the condition is met, the container is reder otherwise, it ignores the widget
+          if (_isLandscape)
+            Container(
+              height: _availableSpace * 0.2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Show chart'),
+                  Switch(
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      })
+                ],
+              ),
             ),
-          ),
-          _showChart
-              ? Container(
-                  height: _availableSpace * 0.8,
-                  child: Chart(
-                    recentTransactions: _recentTransactions,
-                  ),
-                )
-              : // we need only the recent transactions in the chart
-              Container(
-                  height: _availableSpace * 0.8,
-                  child: TransactionList(
-                    transactions: _userTransactions,
-                    trailingFunction: _deleteTransaction,
-                  ),
-                ),
+          if (!_isLandscape) _chartWidget(_availableSpace * 0.3),
+          if (!_isLandscape) _txListWidget(_availableSpace * 0.7),
+          if (_isLandscape)
+            _showChart
+                ? _chartWidget(_availableSpace * 0.8)
+                : // we need only the recent transactions in the chart
+                _txListWidget(_availableSpace * 0.8),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -205,4 +202,18 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
+  Widget _txListWidget(double height) => Container(
+        height: height,
+        child: TransactionList(
+          transactions: _userTransactions,
+          trailingFunction: _deleteTransaction,
+        ),
+      );
+  Widget _chartWidget(double height) => Container(
+        height: height,
+        child: Chart(
+          recentTransactions: _recentTransactions,
+        ),
+      );
 }
