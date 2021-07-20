@@ -15,18 +15,18 @@ class TransactionList extends StatelessWidget {
             builder: (ctx, constraints) => Column(
               children: [
                 Container(
-                  height:  constraints.maxHeight*0.15,
+                  height: constraints.maxHeight * 0.15,
                   child: Text(
                     'No transactions added yet!',
                     style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
                 SizedBox(
-                  height:  constraints.maxHeight*0.05,
+                  height: constraints.maxHeight * 0.05,
                 ),
                 SizedBox(
-                  height:
-                      constraints.maxHeight*0.8, // We need a Container so the image can fit with the container Boundaries, Columns don't have boundaries
+                  height: constraints.maxHeight *
+                      0.8, // We need a Container so the image can fit with the container Boundaries, Columns don't have boundaries
                   child: Image.asset(
                     'assets/images/waiting.png',
                     fit: BoxFit.cover,
@@ -50,11 +50,22 @@ class TransactionList extends StatelessWidget {
                   vertical: 8,
                 ),
                 child: ListTile(
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () => trailingFunction(transactions[index].id),
-                    color: Theme.of(context).errorColor,
-                  ),
+                  trailing: MediaQuery.of(context).size.width > 360
+                      ? TextButton.icon(
+                          onPressed: () =>
+                              trailingFunction(transactions[index].id),
+                          icon: Icon(Icons.delete),
+                          label: Text('Delete'),
+                          style: TextButton.styleFrom(
+                            primary:  Theme.of(context).errorColor,
+                          ),
+                        )
+                      : IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () =>
+                              trailingFunction(transactions[index].id),
+                          color: Theme.of(context).errorColor,
+                        ),
                   leading: CircleAvatar(
                     radius: 30,
                     child: Padding(
