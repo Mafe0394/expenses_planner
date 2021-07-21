@@ -1,5 +1,3 @@
-import 'package:flutter/services.dart';
-
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
 import './models/transaction.dart';
@@ -148,8 +146,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQueryData mediaQuery=MediaQuery.of(context);
     final _isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+        mediaQuery.orientation == Orientation.landscape;
     final AppBar _appBar = AppBar(
       actions: [
         IconButton(
@@ -158,9 +157,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
       title: Text('Personal Expenses'),
     );
-    final _availableSpace = (MediaQuery.of(context).size.height -
+    final _availableSpace = (mediaQuery.size.height -
         _appBar.preferredSize.height -
-        MediaQuery.of(context).padding.top);
+        mediaQuery.padding.top);
 
     return Scaffold(
       appBar: _appBar,
