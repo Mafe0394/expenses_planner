@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
 import './models/transaction.dart';
 import './widgets/chart.dart';
-import 'package:flutter/material.dart';
+
 
 void main() {
   /**The following lines allow us to set the device orientation preferences */
@@ -146,9 +150,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final MediaQueryData mediaQuery=MediaQuery.of(context);
-    final _isLandscape =
-        mediaQuery.orientation == Orientation.landscape;
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final _isLandscape = mediaQuery.orientation == Orientation.landscape;
     final AppBar _appBar = AppBar(
       actions: [
         IconButton(
@@ -175,7 +178,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Show chart'),
-                  Switch(
+                  Switch.adaptive(
+                      activeColor: Theme.of(context).accentColor,
                       value: _showChart,
                       onChanged: (val) {
                         setState(() {
@@ -194,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 _txListWidget(_availableSpace * 0.8),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: Platform.isIOS? Container(): FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => startAddNewTransaction(context),
       ),
