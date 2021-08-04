@@ -1,12 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
 import './models/transaction.dart';
 import './widgets/chart.dart';
-
 
 void main() {
   /**The following lines allow us to set the device orientation preferences */
@@ -152,58 +152,82 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final _isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final AppBar _appBar = AppBar(
-      actions: [
-        IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => startAddNewTransaction(context)),
-      ],
-      title: Text('Personal Expenses'),
-    );
+    final _appBarText = Text('Personal Expenses');
+    final PreferredSizeWidget _appBar = !Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: _appBarText,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: () => startAddNewTransaction(context),
+                  child: Icon(CupertinoIcons.add),
+                ),
+              ],
+            ),
+          )
+        : AppBar(
+            actions: [
+              IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () => startAddNewTransaction(context)),
+            ],
+            title: _appBarText,
+          );
     final _availableSpace = (mediaQuery.size.height -
         _appBar.preferredSize.height -
         mediaQuery.padding.top);
-
-    return Scaffold(
-      appBar: _appBar,
-      body: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          //If the condition is met, the container is reder otherwise, it ignores the widget
-          if (_isLandscape)
-            Container(
-              height: _availableSpace * 0.2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Show chart'),
-                  Switch.adaptive(
-                      activeColor: Theme.of(context).accentColor,
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      })
-                ],
-              ),
+    /**SafeArea ensures that everything is inside the boundaries below the appbar and the notification bar */
+    final Widget _pageBody = SafeArea(child: Column(
+      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        //If the condition is met, the container is reder otherwise, it ignores the widget
+        if (_isLandscape)
+          Container(
+            height: _availableSpace * 0.2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Show chart'),
+                Switch.adaptive(
+                    activeColor: Theme.of(context).accentColor,
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    })
+              ],
             ),
-          if (!_isLandscape) _chartWidget(_availableSpace * 0.3),
-          if (!_isLandscape) _txListWidget(_availableSpace * 0.7),
-          if (_isLandscape)
-            _showChart
-                ? _chartWidget(_availableSpace * 0.8)
-                : // we need only the recent transactions in the chart
-                _txListWidget(_availableSpace * 0.8),
-        ],
-      ),
-      floatingActionButton: Platform.isIOS? Container(): FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => startAddNewTransaction(context),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
+          ),
+        if (!_isLandscape) _chartWidget(_availableSpace * 0.3),
+        if (!_isLandscape) _txListWidget(_availableSpace * 0.7),
+        if (_isLandscape)
+          _showChart
+              ? _chartWidget(_availableSpace * 0.8)
+              : // we need only the recent transactions in the chart
+              _txListWidget(_availableSpace * 0.8),
+      ],
+    ));
+
+    return !Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: _pageBody,
+            navigationBar: _appBar,
+          )
+        : Scaffold(
+            appBar: _appBar,
+            body: _pageBody,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () => startAddNewTransaction(context),
+                  ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
   }
 
   Widget _txListWidget(double height) => Container(
