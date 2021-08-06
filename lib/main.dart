@@ -153,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final _isLandscape = mediaQuery.orientation == Orientation.landscape;
     final _appBarText = Text('Personal Expenses');
-    final PreferredSizeWidget _appBar = !Platform.isIOS
+    final PreferredSizeWidget _appBar = Platform.isIOS
         ? CupertinoNavigationBar(
             middle: _appBarText,
             trailing: Row(
@@ -189,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Show chart'),
+                Text('Show chart',style: Theme.of(context).textTheme.headline6,),
                 Switch.adaptive(
                     activeColor: Theme.of(context).accentColor,
                     value: _showChart,
@@ -211,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     ));
 
-    return !Platform.isIOS
+    return Platform.isIOS
         ? CupertinoPageScaffold(
             child: _pageBody,
             navigationBar: _appBar,

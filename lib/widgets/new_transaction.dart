@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import './adaptive_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -57,11 +61,12 @@ class _NewTransactionState extends State<NewTransaction> {
       child: Card(
         elevation: 5,
         child: Container(
-          padding: EdgeInsets.only(top: 10,
-          right: 10,
-          left: 10,
-          bottom: MediaQuery.of(context).viewInsets.bottom+10,
-          //viewInsets gives us information about anything that's lapping on our view, like the softKew
+          padding: EdgeInsets.only(
+            top: 10,
+            right: 10,
+            left: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+            //viewInsets gives us information about anything that's lapping on our view, like the softKew
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -88,17 +93,7 @@ class _NewTransactionState extends State<NewTransaction> {
                           ? 'No date chosen!'
                           : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}'),
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Theme.of(context).primaryColor,
-                      ),
-                      onPressed: _presentDatePicker,
-                      child: Text(
-                        'Choose Date',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                   AdaptiveFlatButton(text: 'Choose Date', handler: _presentDatePicker),
                   ],
                 ),
               ),
